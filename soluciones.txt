@@ -1,0 +1,91 @@
+#######################################################################################################################################
+# Teoría
+
+1. b
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+2. a
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+3. Primera forma normal
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+4. Ambas cláusulas se usan para filtrar resultados, pero se aplican en momentos diferentes del proceso de query. WHERE permite filtrar antes de que se agrupen los datos (ya sea usando un GROUP BY o una función de agregación), mientras que HAVING permite filtrar después de que los datos se encuentren agrupados (post función de agregación o agrupación usando GROUP BY).
+#--------------------------------------------------------------------------------------------------------------------------------------
+
+5. c
+#######################################################################################################################################
+# Práctica
+
+1.
+
+```SQL
+-- poner solución debajo de este mensaje
+
+SELECT 
+	nombre_materia as materia, 
+	AVG(calificacion) AS promedio_calificacion
+FROM calificaciones
+WHERE
+	calificacion IS NOT NULL
+GROUP BY 
+	materia
+ORDER BY
+	promedio_calificacion DESC;
+
+```
+
+2.
+
+```SQL
+-- poner solución debajo de este mensaje
+
+SELECT DISTINCT
+	a.nombre,
+	a.apellido
+FROM
+	alumnos AS a
+INNER JOIN
+	calificaciones AS c
+USING(expediente)
+ORDER BY
+	a.apellido;
+
+```
+
+--NOTA, Si nos interesa que sean los alumnos con calificaciones registradas no nulas, el query sería:
+
+```SQL
+SELECT DISTINCT
+	a.nombre,
+	a.apellido
+FROM
+	alumnos AS a
+INNER JOIN
+	calificaciones AS c
+USING(expediente)
+WHERE calificacion IS NOT NULL
+ORDER BY
+	a.apellido;
+```
+
+3.
+
+```SQL
+-- poner solución debajo de este mensaje
+
+SELECT 
+	a.nombre,
+	a.apellido,
+	MAX(c.calificacion) AS calificacion_maxima_obtenida
+FROM
+	alumnos AS a
+LEFT JOIN
+	calificaciones AS c
+USING(expediente)
+WHERE
+	c.calificacion IS NOT NULL
+GROUP BY
+	a.expediente;
+
+```
